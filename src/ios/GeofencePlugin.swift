@@ -356,7 +356,6 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
         if var geoNotification = store.findById(region.identifier) {
             geoNotification["transitionType"].int = transitionType
             
-            log("Testing: \(geoNotification)")
             isScheduled(geoNotification)
             isFrequencyOk(geoNotification)
             if geoNotification["notification"].isExists() {
@@ -373,10 +372,10 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
         
         let date = NSDate()
         let components = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)?.components([NSCalendarUnit.Weekday, NSCalendarUnit.Hour, NSCalendarUnit.Minute], fromDate: date)
-        //log("Date: \(components?.hour):\(components?.minute), WeekDay: \(((components?.weekday)!-1))")
+        
         
         if(geo["notification"]["scheduleData"][(components?.weekday)!] != nil){
-            //log("ScheduleData: \(geo["notification"]["scheduleData"][((components?.weekday)!-1)])")
+            
             let day = geo["notification"]["scheduleData"][((components?.weekday)!-1)]
             if(((components?.hour)! as Int) >= (Int(day["on"]["hour"].string!)) && ((components?.hour)! as Int) <= (Int(day["off"]["hour"].string!))){
                 if(((components?.minute)! as Int) >= (Int(day["on"]["minute"].string!)) && ((components?.minute)! as Int) <= (Int(day["off"]["minute"].string!))){
