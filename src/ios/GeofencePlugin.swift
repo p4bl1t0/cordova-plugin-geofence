@@ -270,6 +270,7 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
         //store
         store.addOrUpdate(geoNotification)
         locationManager.startMonitoringForRegion(region)
+        locationManager.requestStateForRegion(region)
     }
 
     func checkRequirements() -> (Bool, [String], [String]) {
@@ -382,6 +383,16 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
 
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
         log("State for region " + region.identifier)
+        if let geo = store.findById(region.identifier) {
+            var transitionType = 0
+            if let i = geo["transitionType"].asInt {
+                transitionType = i
+            }
+            if state == CLRegionState.Inside && (0 != transitionType & 1) {
+                notifyAbout(geo)
+                GeofencePlugin.fireReceiveTransition(geo)
+            }
+        }
     }
 
     func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
