@@ -383,7 +383,7 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
 
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
         log("State for region " + region.identifier)
-        if let geo = store.findById(region.identifier) {
+        /*if let geo = store.findById(region.identifier) {
             var transitionType = 0
             if let i = geo["transitionType"].asInt {
                 transitionType = i
@@ -392,7 +392,7 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
                 notifyAbout(geo)
                 GeofencePlugin.fireReceiveTransition(geo)
             }
-        }
+        }*/
     }
 
     func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
