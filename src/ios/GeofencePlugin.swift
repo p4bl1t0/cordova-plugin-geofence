@@ -441,12 +441,12 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
     func isFrequencyOk(var geo: JSON) -> Bool{
         let store = GeoNotificationStore()
         
-        if(geo["notification"]["lastTriggered"] != nil){
+        /*if(geo["notification"]["lastTriggered"] != nil){
             if(Int(NSDate().timeIntervalSince1970) < geo["notification"]["lastTriggered"].int! + geo["notification"]["frequency"].int!){
                 log("GeoFence triggered before frequency limit elapsed.")
                 return false
             }
-        }
+        }*/
         geo["notification"]["lastTriggered"] = JSON(NSDate().timeIntervalSince1970)
         log("New Geo Obj: \(geo["notification"])")
         store.update(geo)
